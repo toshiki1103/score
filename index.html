@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>スコアボード(サッカー)
+  </title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>スコアボード</h1>
+
+    <!-- 試合情報入力 -->
+    <div class="section">
+      <h2>試合情報</h2>
+      
+      <label>ホームチーム</label>
+      <input type="text" id="inputHomeTeam" placeholder="チームA">
+      
+      <label>アウェイチーム</label>
+      <input type="text" id="inputAwayTeam" placeholder="チームB">
+      
+      <button onclick="startGame()">開始</button>
+    </div>
+
+    <!-- スコアボード -->
+    <div id="gameScreen" style="display: none;">
+      <!-- スコア表示 -->
+      <div class="scoreboard">
+        <div class="team-score">
+          <div class="team-name" id="homeTeamName"></div>
+          <div class="score-number" id="homeScore">0</div>
+          <button onclick="homeGoal()">⚽ ゴール</button>
+        </div>
+        
+        <div class="team-score">
+          <div class="team-name" id="awayTeamName"></div>
+          <div class="score-number" id="awayScore">0</div>
+          <button onclick="awayGoal()">⚽ ゴール</button>
+        </div>
+      </div>
+
+      <!-- ゴール記録 -->
+      <div id="logBox"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    // Firebase をインポート
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+    import { getDatabase, ref, set, update, push, onValue } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js";
+
+    // Firebase の設定
+    const firebaseConfig = {
+      apiKey: "AIzaSyBUD7vhgcb6LZRIZTXSFmTZRgocPfvEvmk",
+      authDomain: "score-fb51a.firebaseapp.com",
+      projectId: "score-fb51a",
+      storageBucket: "score-fb51a.firebasestorage.app",
+      messagingSenderId: "12080445612",
+      appId: "1:12080445612:web:1dc93eda16a2c5e709c709"
+    };
+
+    // Firebase を初期化
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // ===== 変数 =====
+    let homeTeamName = "";
+    let awayTeamName = "";
+    let homeScore = 0;
+    let awayScore = 0;
+
+    // ===== 開始ボタン =====
+    window.startGame = function() {
+      // 入力値を取得
+      homeTeamName = document.getElementById("inputHomeTeam").value;
+      awayTeamName = document.getElementById("inputAwayTeam").value;
+
+      // スコアをリセット
+      homeScore = 0;
+      awayScore = 0;
+
+      // Firebase に保存
+      set(ref(database, "matches/game1"), {
+        homeTeam: homeTeamName,
+        awayTeam: awayTeamName,
+        homeScore: 0,
+        awayScore: 0,
+        logs: {}
+      });
+
+      // 画面を表示
+      document.getElementById("gameScreen").style.display = "block";
+      document.getElementById("homeTeamName").textContent = homeTeamName;
+      document.getElementById("awayTeamName").textContent = awayTeamName;
+
+      // Firebase 監視開始
+      watchDatabase();
+    };
+
+    // ===== ホームゴール =====
+    window.homeGoal = function() {
+      // スコアを +1
+      homeScore = homeScore + 1;
+
+      // 画面に表示
+      document.getElementById("homeScore").textContent = homeScore;
+
+      // Firebase に保存
+      update(ref(database, "matches/game1"), {
+        homeScore: homeScore
+      });
+
+      // ログに記録
+      const logData = {
+        time: new Date().toLocaleTimeString("ja-JP"),
+        team: homeTeamName,
+        action: "⚽ ゴール"
+      };
+      push(ref(database, "matches/game1/logs"), logData);
+    };
+
+    // ===== アウェイゴール =====
+    window.awayGoal = function() {
+      // スコアを +1
+      awayScore = awayScore + 1;
+
+      // 画面に表示
+      document.getElementById("awayScore").textContent = awayScore;
+
+      // Firebase に保存
+      update(ref(database, "matches/game1"), {
+        awayScore: awayScore
+      });
+
+      // ログに記録
+      const logData = {
+        time: new Date().toLocaleTimeString("ja-JP"),
+        team: awayTeamName,
+        action: "⚽ ゴール"
+      };
+      push(ref(database, "matches/game1/logs"), logData);
+    };
+
+    // ===== Firebase 監視 =====
+    function watchDatabase() {
+      onValue(ref(database, "matches/game1"), function(snapshot) {
+        const data = snapshot.val();
+
+        // スコア表示
+        document.getElementById("homeScore").textContent = data.homeScore;
+        document.getElementById("awayScore").textContent = data.awayScore;
+
+        // ログ表示
+        const logs = data.logs || {};
+        const logsArray = Object.values(logs);
+        const logBox = document.getElementById("logBox");
+        let html = "";
+
+        for (let i = logsArray.length - 1; i >= 0; i--) {
+          const log = logsArray[i];
+          html = html + '<div class="log-item">';
+          html = html + '<div>' + log.action + '</div>';
+          html = html + '<div>' + log.team + '</div>';
+          html = html + '<div>' + log.time + '</div>';
+          html = html + '</div>';
+        }
+
+        logBox.innerHTML = html;
+      });
+    }
+  </script>
+</body>
+</html>

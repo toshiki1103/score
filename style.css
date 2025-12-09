@@ -1,0 +1,287 @@
+/* ========================================
+   全ページ共通のスタイル
+   ======================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  padding: 20px;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   見出しとタイトル
+   ======================================== */
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 2em;
+}
+
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* ========================================
+   メッセージ表示（成功・エラー）
+   ======================================== */
+
+#messageBox {
+  padding: 12px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: bold;
+  display: none;
+}
+
+/* メッセージが表示されている状態 */
+#messageBox.show {
+  display: block;
+}
+
+/* 成功メッセージ（緑色） */
+#messageBox.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+/* エラーメッセージ（赤色） */
+#messageBox.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* ========================================
+   画面表示/非表示の制御
+   ======================================== */
+
+.hidden {
+  display: none !important;
+}
+
+/* ========================================
+   セクション（入力画面など）
+   ======================================== */
+
+.section {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* ========================================
+   フォーム（入力欄）
+   ======================================== */
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  color: #666;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+input:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+/* ========================================
+   ボタン
+   ======================================== */
+
+button {
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1em;
+  transition: all 0.3s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+/* 「開始」ボタン（緑色） */
+.btn-start {
+  background-color: #4CAF50;
+  color: white;
+  width: 100%;
+}
+
+.btn-start:hover {
+  background-color: #45a049;
+}
+
+/* 「ゴール」ボタン（赤色） */
+.btn-goal {
+  background-color: #ff6b6b;
+  color: white;
+  width: 100%;
+  margin-top: 10px;
+  padding: 15px;
+  font-size: 1.1em;
+}
+
+.btn-goal:hover {
+  background-color: #ff5252;
+}
+
+/* ========================================
+   情報表示（試合ID など）
+   ======================================== */
+
+.info {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* ========================================
+   スコア表示
+   ======================================== */
+
+.scoreboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.team-score {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  border: 2px solid #ddd;
+}
+
+.team-name {
+  color: #666;
+  margin-bottom: 10px;
+  font-size: 0.9em;
+}
+
+.score-number {
+  font-size: 3.5em;
+  font-weight: bold;
+  color: #333;
+}
+
+/* ========================================
+   セクション見出し（「ゴール記録」など）
+   ======================================== */
+
+.section-title {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+/* ========================================
+   ゴール記録リスト
+   ======================================== */
+
+.log-list {
+  max-height: 250px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.log-item {
+  padding: 10px;
+  background-color: white;
+  margin-bottom: 8px;
+  border-left: 3px solid #4CAF50;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+.log-action {
+  font-weight: bold;
+  color: #333;
+}
+
+.log-team {
+  color: #666;
+  font-size: 0.85em;
+}
+
+.log-time {
+  color: #999;
+  font-size: 0.8em;
+  margin-top: 3px;
+}
+
+.log-empty {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+}
+
+/* ========================================
+   モバイル対応
+   ======================================== */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+
+  .score-number {
+    font-size: 2.5em;
+  }
+
+  .btn-group {
+    grid-template-columns: 1fr;
+  }
+}
