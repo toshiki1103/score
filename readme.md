@@ -5,6 +5,7 @@
 サッカーの試合スコアの記録アプリ
 
 ## ③アプリのデプロイURL
+https://toshiki1103.github.io/score/
 
 ## ④アプリのログイン用IDまたはPassword（ある場合）
 なし
